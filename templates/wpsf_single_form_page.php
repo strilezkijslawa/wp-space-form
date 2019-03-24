@@ -15,28 +15,28 @@
             <div class="wpsf-form">
                 <form id="wpsfFormFieldsForm" method="post" action="javascript:;">
                     <?php
-                    if ( !empty($form) ) :
+                    if ( !empty($this->data['form']) ) :
                     ?>
                         <div class="wpsf-group">
                             <label for="wpsf_name"><?php _e( 'Name', 'wpsf' ); ?></label>
-                            <input type="text" id="wpsf_name" name="wpsf_name" class="wpsf-form-input" value="<?= $form['name'] ?>">
+                            <input type="text" id="wpsf_name" name="wpsf_name" class="wpsf-form-input" value="<?= $this->data['form']['name'] ?>">
                         </div>
                         <div class="wpsf-group">
                             <label for="wpsf_from_email"><?php _e( 'From email', 'wpsf' ); ?></label>
-                            <input type="email" id="wpsf_from_email" name="wpsf_from_email" class="wpsf-form-input email" value="<?= !empty($form['from_email'])?$form['from_email']:$this->settings['from_email'] ?>">
+                            <input type="email" id="wpsf_from_email" name="wpsf_from_email" class="wpsf-form-input email" value="<?= !empty($this->data['form']['from_email'])?$this->data['form']['from_email']:$this->data['settings']['from_email'] ?>">
                         </div>
                         <div class="wpsf-group">
                             <label for="wpsf_to_email"><?php _e( 'To email', 'wpsf' ); ?></label>
-                            <input type="email" id="wpsf_to_email" name="wpsf_to_email" class="wpsf-form-input email" value="<?= $form['to_email'] ?>">
+                            <input type="email" id="wpsf_to_email" name="wpsf_to_email" class="wpsf-form-input email" value="<?= $this->data['form']['to_email'] ?>">
                         </div>
                         <div class="wpsf-group">
                             <label for="wpsf_subject"><?php _e( 'Subject', 'wpsf' ); ?></label>
-                            <input type="text" id="wpsf_subject" name="wpsf_subject" class="wpsf-form-input" value="<?= $form['subject'] ?>">
+                            <input type="text" id="wpsf_subject" name="wpsf_subject" class="wpsf-form-input" value="<?= $this->data['form']['subject'] ?>">
                         </div>
                         <div class="wpsf-group">
                             <label for="wpsf_message_template"><?php _e( 'Message template', 'wpsf' ); ?></label>
                             <?php
-                            wp_editor( $form['message_template'], 'wpsf_message_template', array(
+                            wp_editor( $this->data['form']['message_template'], 'wpsf_message_template', array(
                                 'wpautop'       => 0,
                                 'media_buttons' => 0,
                                 'textarea_name' => 'wpsf_message_template',
@@ -55,7 +55,7 @@
                         <div class="wpsf-group">
                             <label for="wpsf_admin_message_template"><?php _e( 'Admin message template', 'wpsf' ); ?></label>
                             <?php
-                            wp_editor( $form['admin_message_template'], 'wpsf_admin_message_template', array(
+                            wp_editor( $this->data['form']['admin_message_template'], 'wpsf_admin_message_template', array(
                                 'wpautop'       => 0,
                                 'media_buttons' => 0,
                                 'textarea_name' => 'wpsf_admin_message_template',
@@ -74,10 +74,10 @@
                         <div class="wpsf-group">
                             <div id="wpsfFormFieldsSorting" class="wpsf-form-fields">
                                 <?php
-                                if ( !empty($form_fields) ) :
-                                    foreach ( $form_fields as $form_field ) : ?>
+                                if ( !empty($this->data['form_fields']) ) :
+                                    foreach ( $this->data['form_fields'] as $form_field ) : ?>
                                     <div class="wpsf-form-field">
-
+                                        <?= print_r($form_field, true) ?>
                                     </div>
                                 <?php endforeach;
                                 else: ?>
@@ -89,7 +89,7 @@
                             <a href="#" class="wpsf-btn wpsf-form-add-field"><?php _e( 'Add field', 'wpsf' ) ?></a>
                         </div>
                         <div class="wpsf-group">
-                            <input type="hidden" name="wpsf_id" value="<?= $form['id'] ?>">
+                            <input type="hidden" name="wpsf_id" value="<?= $this->data['form']['id'] ?>">
                             <input type="hidden" name="action" value="wpsf_update_single_form">
                             <button type="button" class="wpsf-btn button button-primary"><?php _e( 'Save', 'wpsf' ); ?></button>
                         </div>
@@ -130,7 +130,7 @@
                     <input type="checkbox" id="wpsf_required" name="wpsf_required" class="wpsf-form-checkbox" value="1" checked>
                 </div>
                 <div class="wpsf-group">
-                    <input type="hidden" name="wpsf_form_id" value="<?= !empty($form)?$form['id']:'' ?>">
+                    <input type="hidden" name="wpsf_form_id" value="<?= !empty($this->data['form'])?$this->data['form']['id']:'' ?>">
                     <input type="hidden" name="action" value="wpsf_add_form_field">
                     <button type="button" class="wpsf-btn button button-primary"><?php _e( 'Add', 'wpsf' ); ?></button>
                 </div>

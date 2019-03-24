@@ -21,8 +21,8 @@
                             <th><?php _e( 'Actions', 'wpsf' ) ?></th>
                         </tr>
                         <?php
-                        if ( !empty($forms) ) :
-                            foreach ($forms as $form) :
+                        if ( !empty($this->data['forms']) ) :
+                            foreach ($this->data['forms'] as $form) :
                         ?>
                             <tr data-id="<?= $form['id'] ?>" class="<?php if ( !$form['active'] ) { echo ' wpsf-deactivate'; } ?>">
                                 <td>

@@ -170,6 +170,8 @@ if ( ! class_exists('WPSF_Loader') ) {
 
             require_once WPSF_BASE_DIR . 'classes/WPSF_Shortcode.php';
             require_once WPSF_BASE_DIR . 'classes/WPSF_Model.php';
+            require_once WPSF_BASE_DIR . 'classes/WPSF_View.php';
+            require_once WPSF_BASE_DIR . 'classes/WPSF_Controller.php';
             require_once WPSF_BASE_DIR . 'classes/WPSF_Routes.php';
 
         }
