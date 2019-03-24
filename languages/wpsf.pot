@@ -1,0 +1,94 @@
+# Copyright (C) 2018 Brainstorm Force
+# This file is distributed under the same license as the Convert Pro package.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Convert Pro 1.1.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertpro\n"
+"POT-Creation-Date: 2018-08-25 19:54+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: classes/WPSR_Loader.php:64
+msgid ""
+"Your server seems to be running outdated, unsupported and vulnerable version of "
+"PHP. You are advised to contact your host provider and upgrade to PHP version "
+"5.3 or greater."
+msgstr ""
+
+#: classes/WPSR_Loader.php:215
+#, php-format
+msgid ""
+"You currently have two versions of <strong>WP Space Rate</strong> active on this "
+"site. Please <a href='%s'>deactivate one</a> before continuing."
+msgstr ""
+
+#: includes/ajax-actions.php:50
+msgid "Success updated"
+msgstr ""
+
+#: includes/ajax-actions.php:53
+msgid "Updated is failed"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:16
+msgid "Settings"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:27
+msgid "Show rate?"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:31
+msgid "Star font size"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:36
+msgid "Empty star color"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:40
+msgid "Filled star color"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:44
+msgid "Title size"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:49
+msgid "Title empty text"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:53
+msgid "Title filled text"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:57
+msgid "Title color"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:65
+msgid "Set rate position"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:82
+msgid "Save"
+msgstr ""
+
+#: templates/wpsr_admin_page.php:87
+msgid "Stars preview:"
+msgstr ""
