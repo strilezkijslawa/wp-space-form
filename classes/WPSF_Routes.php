@@ -30,8 +30,6 @@ if ( !class_exists( 'WPSF_Routes' ) ) {
         {
             $this->namespace = 'wp-space-form/v1'; // api namespace for wp, http://site.com/wp-json/{$namespace}/{$resource}
             $this->_action_nonce = 'wp-space-form';
-
-            $this->wpsf_register_routes();
         }
 
         /**

@@ -33,6 +33,11 @@ if ( !class_exists( 'WPSF_View' ) ) {
             $this->data['positions'] = $positions;
         }
 
+        public function setLetters( $letters = [] )
+        {
+            $this->data['letters'] = $letters;
+        }
+
         /**
          * The unique instance of the plugin.
          *
@@ -72,6 +77,11 @@ if ( !class_exists( 'WPSF_View' ) ) {
         public function wpsf_show_settings_page()
         {
             require_once WPSF_TEMPLATES_DIR . 'wpsf_settings_page.php';
+        }
+
+        public function wpsf_show_sent_letters_page()
+        {
+            require_once WPSF_TEMPLATES_DIR . 'wpsf_sent_letters_page.php';
         }
     }
 }

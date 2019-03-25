@@ -104,6 +104,33 @@ if ( !class_exists( 'WPSF_Model' ) ) {
             return $form_fields;
         }
 
+        /**
+         * Get sent letters
+         * @param bool $letter_id
+         * @return array
+         */
+        public function get_wpsf_sent_letters( $letter_id = false )
+        {
+            global $wpdb;
+
+            if ( $letter_id ) {
+                $letters = $wpdb->get_results("SELECT * FROM `" . $this->wpsf_letters_table . "` WHERE `id` = '{$letter_id}' LIMIT 1", ARRAY_A);
+                if ( empty($letters) ) {
+                    return [];
+                } else {
+                    return $letters[0];
+                }
+            }
+
+            $letters = $wpdb->get_results("SELECT * FROM `" . $this->wpsf_letters_table . "`", ARRAY_A);
+            return $letters;
+        }
+
+        /**
+         * Get single form field
+         * @param bool $field_id
+         * @return array
+         */
         public function get_wpsf_form_single_field( $field_id = false )
         {
             if ( !$field_id ) {
@@ -118,6 +145,30 @@ if ( !class_exists( 'WPSF_Model' ) ) {
             } else {
                 return [];
             }
+        }
+
+        public function sanitize_name_with_translit($title) {
+            $gost = array(
+                "Є"=>"EH","І"=>"I","і"=>"i","Ї"=>"i","ї"=>"i","№"=>"#","є"=>"eh",
+                "А"=>"A","Б"=>"B","В"=>"V","Г"=>"G","Д"=>"D","ѓ"=>"g",
+                "Е"=>"E","Ё"=>"JO","Ж"=>"ZH",
+                "З"=>"Z","И"=>"I","Й"=>"JJ","К"=>"K","Л"=>"L",
+                "М"=>"M","Н"=>"N","О"=>"O","П"=>"P","Р"=>"R",
+                "С"=>"S","Т"=>"T","У"=>"U","Ф"=>"F","Х"=>"KH",
+                "Ц"=>"C","Ч"=>"CH","Ш"=>"SH","Щ"=>"SHH","Ъ"=>"'",
+                "Ы"=>"Y","Ь"=>"","Э"=>"EH","Ю"=>"YU","Я"=>"YA",
+                "а"=>"a","б"=>"b","в"=>"v","г"=>"g","д"=>"d",
+                "е"=>"e","ё"=>"jo","ж"=>"zh",
+                "з"=>"z","и"=>"i","й"=>"jj","к"=>"k","л"=>"l",
+                "м"=>"m","н"=>"n","о"=>"o","п"=>"p","р"=>"r",
+                "с"=>"s","т"=>"t","у"=>"u","ф"=>"f","х"=>"kh",
+                "ц"=>"c","ч"=>"ch","ш"=>"sh","щ"=>"shh","ъ"=>"",
+                "ы"=>"y","ь"=>"","э"=>"eh","ю"=>"yu","я"=>"ya",
+                "—"=>"_","«"=>"","»"=>"","…"=>"","-"=>"_","[ ]"=>"[]",
+                "{"=>"","}"=>"","("=>"",")"=>""," "=>"_",","=>"","."=>""
+            );
+
+            return strtolower( strtr($title, $gost) );
         }
     }
 }

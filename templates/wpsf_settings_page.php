@@ -4,15 +4,13 @@
  */
 ?>
 
-<div class="wrap">
+<div class="wrap wpsf-wrap">
     <h2><?php _e( 'Settings for', 'wpsf' ); ?> <?=WPSF_NAME?></h2>
     <br/>
 
-    <div class="wpsf-notices"></div>
-
     <div id="center-panel" style="width: 100%; margin: 15px auto;">
         <div class="widefat">
-            <div class="wpsf-form">
+            <div class="wpsf-form wpsf-form-settings">
                 <form id="wpsfAdminForm" method="POST" action="javascript:;">
                     <div class="wpsf-group">
                         <label for="wpsf_send_letters"><?php _e( 'Send letter to admin?', 'wpsf' ); ?></label>
@@ -53,10 +51,10 @@
                             'wpautop'       => 0,
                             'media_buttons' => 0,
                             'textarea_name' => 'wpsf_global_letter_template',
-                            'textarea_rows' => 20,
+                            'textarea_rows' => 15,
                             'tabindex'      => null,
                             'editor_css'    => '',
-                            'editor_class'  => '',
+                            'editor_class'  => 'wpsf-form-text',
                             'teeny'         => 0,
                             'dfw'           => 0,
                             'tinymce'       => 0,
@@ -72,10 +70,10 @@
                             'wpautop'       => 0,
                             'media_buttons' => 0,
                             'textarea_name' => 'wpsf_styles',
-                            'textarea_rows' => 20,
+                            'textarea_rows' => 15,
                             'tabindex'      => null,
                             'editor_css'    => '',
-                            'editor_class'  => '',
+                            'editor_class'  => 'wpsf-form-text',
                             'teeny'         => 0,
                             'dfw'           => 0,
                             'tinymce'       => 0,
@@ -86,9 +84,11 @@
                     </div>
                     <div class="wpsf-group">
                         <input type="hidden" name="action" value="wpsf_update_settings">
-                        <button type="button" class="wpsf-btn button button-primary"><?php _e( 'Save', 'wpsf' ); ?></button>
+                        <button type="submit" class="wpsf-btn button button-primary"><?php _e( 'Save settings', 'wpsf' ); ?></button>
                     </div>
                 </form>
+
+                <div class="wpsf-notices"></div>
             </div>
         </div>
     </div>

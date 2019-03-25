@@ -52,14 +52,14 @@ if ( ! class_exists('WPSF_Controller') ) {
          */
         function __construct()
         {
+            $this->WPCF_View = WPSF_View::get_instance();
+            $this->WPCF_Model = WPSF_Model::get_instance();
+
             $this->_wpsf_create_db_table();
 
             add_action('plugins_loaded', array($this, 'wpsf_load_textdomain'));
             add_action('admin_menu', array($this, 'wpsf_admin_generate_menu'));
             $this->wpsf_enqueue_scripts();
-
-            $this->WPCF_View = WPSF_View::get_instance();
-            $this->WPCF_Model = WPSF_Model::get_instance();
 
             $WPSF_Shortcode = WPSF_Shortcode::get_instance();
             add_shortcode('wpsf_space_form', array($WPSF_Shortcode, 'wpsf_space_form_shortcode'));
@@ -97,7 +97,7 @@ if ( ! class_exists('WPSF_Controller') ) {
                         send_letters tinyint(1) NOT NULL DEFAULT '1',
                         send_letters_to_user tinyint(1) NOT NULL DEFAULT '1',
                         from_email varchar(200) NOT NULL DEFAULT 'wpsf@" . str_replace('www.', '', $_SERVER['HTTP_HOST']) . "',
-                        message_position enum(" . implode(', ', $this->wpsf_message_positions ) . ") NOT NULL DEFAULT 'bottom',
+                        message_position enum('" . implode('\',\'', $this->WPCF_Model->wpsf_message_positions ) . "') NOT NULL DEFAULT 'bottom',
                         global_letter_template text NOT NULL DEFAULT '',
                         success_message_color varchar(50) NOT NULL DEFAULT '28a745',
                         error_message_color varchar(50) NOT NULL DEFAULT 'dc3545',
@@ -118,10 +118,10 @@ if ( ! class_exists('WPSF_Controller') ) {
                 $sql_tbl_wpsf = "
                    CREATE TABLE `" . $table2 . "` (
                         id int(11) NOT NULL AUTO_INCREMENT,
-                        name varchar(255) NOT NOT NULL DEFAULT '',
-                        from_email varchar(255) NOT NULL DEFAULT '',
-                        to_email varchar(255) NOT NULL DEFAULT '',
-                        subject varchar(255) NOT NULL DEFAULT '',
+                        name varchar(255) NOT NULL,
+                        from_email varchar(255) NOT NULL,
+                        to_email varchar(255) NOT NULL,
+                        subject varchar(255) NOT NULL,
                         message_template text NOT NULL DEFAULT '',
                         admin_message_template text NOT NULL DEFAULT '',
                         active tinyint(1) NOT NULL DEFAULT '1',
@@ -183,8 +183,9 @@ if ( ! class_exists('WPSF_Controller') ) {
          */
         function wpsf_admin_generate_menu()
         {
-            add_submenu_page('options-general.php', WPSF_NAME, WPSF_NAME, 'manage_options', WPSF_SLUG, array($this, 'wpsf_admin_page'));
-            add_submenu_page('options-general.php?page=wp-space-form', __( 'Settings', 'wpsf' ), __( 'Settings', 'wpsf' ), 'manage_options', 'wpsf-settings', array($this, 'wpsf_setting_page'));
+            add_menu_page(WPSF_NAME, WPSF_NAME, 'manage_options', WPSF_SLUG, array($this, 'wpsf_admin_page'), 'dashicons-welcome-widgets-menus');
+            add_submenu_page('wp-space-form', __( 'Sent letters', 'wpsf' ), __( 'Sent letters', 'wpsf' ), 'manage_options', 'wpsf-sent-letters', array($this, 'wpsf_sent_letters_page'));
+            add_submenu_page('wp-space-form', __( 'Settings', 'wpsf' ), __( 'Settings', 'wpsf' ), 'manage_options', 'wpsf-settings', array($this, 'wpsf_setting_page'));
         }
 
         /**
@@ -195,6 +196,17 @@ if ( ! class_exists('WPSF_Controller') ) {
             $this->WPCF_View->setSettings( $this->settings );
             $this->WPCF_View->setPositions( $this->WPCF_Model->wpsf_message_positions );
             $this->WPCF_View->wpsf_show_settings_page();
+        }
+
+        /**
+         * WPSF sent letters page
+         */
+        public function wpsf_sent_letters_page()
+        {
+            $this->WPCF_View->setSettings( $this->settings );
+            $letters = $this->WPCF_Model->get_wpsf_sent_letters();
+            $this->WPCF_View->setLetters( $letters );
+            $this->WPCF_View->wpsf_show_sent_letters_page();
         }
 
         /**
@@ -254,7 +266,6 @@ if ( ! class_exists('WPSF_Controller') ) {
                 add_action('admin_enqueue_scripts', array($this, 'wpsf_enqueue_admin_scripts'), 10);
             } else {
                 add_action('wp_print_scripts', array($this, 'wpsf_enqueue_front_scripts'), 10);
-
             }
         }
 
@@ -267,6 +278,9 @@ if ( ! class_exists('WPSF_Controller') ) {
             wp_enqueue_script('jscolor-script', WPSF_BASE_URL . 'assets/admin/js/jscolor.js', array('jquery'), null, true);
             wp_enqueue_script('wpsf-global-script', WPSF_BASE_URL . 'assets/global/js/wpsf_global.js', array('jquery'), null, true);
             wp_enqueue_script('wpsf-script', WPSF_BASE_URL . 'assets/admin/js/wpsf.js', array('jquery'), null, true);
+
+            wp_localize_script( 'wpsf-script', 'ajaxObject',
+                array( 'url' => admin_url( 'admin-ajax.php' ) ) );
         }
 
         public function wpsf_enqueue_front_scripts()
@@ -282,10 +296,8 @@ if ( ! class_exists('WPSF_Controller') ) {
          */
         public function wpsf_load_css_async()
         {
-
-            $settings = $this->settings;
             $scripts = "";
-            $scripts .= "<style>{$settings['styles']}</style>";
+            $scripts .= "\n<style>\n{$this->settings['styles']}\n</style>\n";
 
             echo $scripts;
         }
@@ -298,7 +310,7 @@ if ( ! class_exists('WPSF_Controller') ) {
         {
             global $wpdb;
 
-            $settings = $wpdb->get_results("SELECT * FROM `" . $this->wpsf_settings_table . "` LIMIT 1", ARRAY_A);
+            $settings = $wpdb->get_results("SELECT * FROM `" . $this->WPCF_Model->wpsf_settings_table . "` LIMIT 1", ARRAY_A);
             $this->settings = $settings[0];
 
             return $this->settings;

@@ -47,6 +47,8 @@ if ( ! class_exists('WPSF_Loader') ) {
             $this->define_constants();
             $this->load_files();
             add_filter( 'all_plugins', __CLASS__ . '::plugins_page' );
+
+            add_action( 'rest_api_init', array( $this, 'wpsf_register_rest_controller' ) );
         }
 
         /**
@@ -171,8 +173,8 @@ if ( ! class_exists('WPSF_Loader') ) {
             require_once WPSF_BASE_DIR . 'classes/WPSF_Shortcode.php';
             require_once WPSF_BASE_DIR . 'classes/WPSF_Model.php';
             require_once WPSF_BASE_DIR . 'classes/WPSF_View.php';
-            require_once WPSF_BASE_DIR . 'classes/WPSF_Controller.php';
             require_once WPSF_BASE_DIR . 'classes/WPSF_Routes.php';
+            require_once WPSF_BASE_DIR . 'classes/WPSF_Controller.php';
 
         }
 
@@ -190,6 +192,11 @@ if ( ! class_exists('WPSF_Loader') ) {
             $branding['author_url']        = esc_url( get_option( 'wpsf_branding_plugin_author_url' ) );
 
             return $branding;
+        }
+
+        public function wpsf_register_rest_controller() {
+            $WPSF_Rest = WPSF_Routes::get_instance();
+            $WPSF_Rest->wpsf_register_routes();
         }
     }
 
