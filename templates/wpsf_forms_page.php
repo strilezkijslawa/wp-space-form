@@ -96,25 +96,6 @@
                         <div class="wpsf-error-message"><?php _e( 'Error! Field can not be empty!', 'wpsf' ); ?></div>
                     </div>
                     <div class="wpsf-group">
-                        <label for="wpsf_message_template"><?php _e( 'Message template', 'wpsf' ); ?></label>
-                        <?php
-                        wp_editor( '', 'wpsf_message_template', array(
-                            'wpautop'       => 0,
-                            'media_buttons' => 0,
-                            'textarea_name' => 'wpsf_message_template',
-                            'textarea_rows' => 15,
-                            'tabindex'      => null,
-                            'editor_css'    => '',
-                            'editor_class'  => 'wpsf-form-text',
-                            'teeny'         => 0,
-                            'dfw'           => 0,
-                            'tinymce'       => 0,
-                            'quicktags'     => 0,
-                            'drag_drop_upload' => false
-                        ) );
-                        ?>
-                    </div>
-                    <div class="wpsf-group">
                         <label for="wpsf_admin_message_template"><?php _e( 'Admin message template', 'wpsf' ); ?></label>
                         <?php
                         wp_editor( $this->data['settings']['global_letter_template'], 'wpsf_admin_message_template', array(

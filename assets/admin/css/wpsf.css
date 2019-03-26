@@ -6,34 +6,6 @@
 .wpsf-wrap {
     position: relative;
 }
-.wpsf-notices .notice{
-    font-size: 0.8rem;
-    line-height: 1.6rem;
-    margin-top: 1rem;
-    font-weight: bold;
-}
-.wpsf-notices .notice-success{
-    color: #28A745;
-}
-.wpsf-notices .notice-error{
-    color: #DC3545;
-}
-.wpsf-mb-3{
-    margin-bottom: 1rem;
-}
-.wpsf-center{
-    text-align: center;
-}
-.wpsf-right{
-    text-align: right;
-}
-.wpsf-btn {
-    display: inline-block;
-    text-decoration: none;
-    font-size: 1.4rem;
-    line-height: 1;
-    padding: .4rem .6rem;
-}
 .wpsf-btn-close{
     width: 40px;
     height: 40px;
@@ -53,32 +25,14 @@
     color: #ffffff;
     background-color: #333333;
 }
-.wpsf-inline{
-    display: -ms-flexbox;
-    display: flex;
-    align-items: center;
-}
 .wpsf-form{
     background-color: #f7f7f7;
     padding: 1rem 1rem .6rem;
     border: 1px solid #9a9fa8;
 }
-.wpsf-group{
-    width: 100%;
-    margin-bottom: 1rem;
-}
-.wpsf-group label {
-    display: block;
-    font-weight: 700;
-    font-size: 0.9rem;
-    width: 100%;
-}
 .wpsf-form-settings .wpsf-group label {
     width: 100%;
 }
-.wpsf-form-input,
-.wpsf-form-text,
-.wpsf-form-select,
 .ui-selectmenu-button.ui-button{
     width: 100%;
     display: inline-block;
@@ -86,24 +40,8 @@
     border: 1px solid #9a9fa8;
     padding: .4rem .8rem;
 }
-.wpsf-form-text {
-    resize: none;
-}
 .wp-editor-wrap{
     margin-top: 0.6rem;
-}
-.wpsf-error-message{
-    display: none;
-    padding: 0 .6rem;
-    margin-top: 0.4rem;
-    border-left: 2px solid #DC3545;
-    color: #DC3545;
-}
-.wpsf-group.has-error{
-    color: #DC3545;
-}
-.wpsf-group.has-error .wpsf-error-message{
-    display: block;
 }
 
 .wpsf-modal{
@@ -210,6 +148,23 @@
     font-size: 1rem;
     margin-right: 1rem;
 }
+.wpsf-form-field-name{
+    margin-right: 1rem;
+}
+
+.wpsf-name {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9rem;
+    width: 100%;
+}
+.wpsf-value{
+    width: 100%;
+    display: inline-block;
+    margin-top: 0.6rem;
+    border: 1px solid #9a9fa8;
+    padding: .4rem .8rem;
+}
 
 @media (min-width: 768px) {
     .wpsf-group label{
@@ -217,8 +172,12 @@
         display: inline-block;
     }
     .wpsf-form-settings .wpsf-group label,
-    .wpsf-group-inline label{
+    .wpsf-group-inline label,
+    .wpsf-inline .wpsf-name{
         width: 48.5%;
+    }
+    .wpsf-inline .wpsf-value{
+        width: 50%;
     }
     .ui-selectmenu-button.ui-button{
         width: auto;

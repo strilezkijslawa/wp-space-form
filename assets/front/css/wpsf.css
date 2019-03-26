@@ -1,0 +1,9 @@
+.wpsf-btn-send{
+    background: transparent;
+    color: #28A745;
+    border: 1px solid #28A745;
+}
+.wpsf-btn-send:hover{
+    background: #28A745;
+    color: #ffffff;
+}

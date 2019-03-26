@@ -34,25 +34,6 @@
                             <input type="text" id="wpsf_subject" name="wpsf_subject" class="wpsf-form-input" value="<?= $this->data['form']['subject'] ?>">
                         </div>
                         <div class="wpsf-group">
-                            <label for="wpsf_message_template"><?php _e( 'Message template', 'wpsf' ); ?></label>
-                            <?php
-                            wp_editor( $this->data['form']['message_template'], 'wpsf_message_template', array(
-                                'wpautop'       => 0,
-                                'media_buttons' => 0,
-                                'textarea_name' => 'wpsf_message_template',
-                                'textarea_rows' => 15,
-                                'tabindex'      => null,
-                                'editor_css'    => '',
-                                'editor_class'  => 'wpsf-form-text',
-                                'teeny'         => 0,
-                                'dfw'           => 0,
-                                'tinymce'       => 0,
-                                'quicktags'     => 0,
-                                'drag_drop_upload' => false
-                            ) );
-                            ?>
-                        </div>
-                        <div class="wpsf-group">
                             <label for="wpsf_admin_message_template"><?php _e( 'Admin message template', 'wpsf' ); ?></label>
                             <?php
                             wp_editor( $this->data['form']['admin_message_template'], 'wpsf_admin_message_template', array(
@@ -83,6 +64,11 @@
                                             <div class="wpsf-form-field-sorting"><?= $form_field['sorting'] ?></div>
                                             <div class="wpsf-form-field-label"><?= $form_field['label'] ?></div>
                                             <div class="wpsf-form-field-name"><?= $form_field['name'] ?></div>
+                                            <div class="wpsf-form-field-name">[<?= $form_field['type'] ?>]</div>
+                                            <?php if ( $form_field['required'] ) : ?>
+                                                <div class="wpsf-form-field-name">[<?php _e( 'Required', 'wpsf' ); ?>]</div>
+                                            <?php endif; ?>
+                                            <div class="wpsf-form-field-name"><?php _e( 'To admin:', 'wpsf' ); ?> <?= $form_field['send_to_admin'] ?></div>
                                         </div>
                                         <div class="wpsf-form-field-actions wpsf-right">
                                             <a href="#" class="wpsf-btn wpsf-btn-edit-field"><?php _e( 'Edit field', 'wpsf' ); ?></a>
@@ -154,10 +140,6 @@
                         <label for="wpsf_send_to_admin"><?php _e( 'Send to admin?', 'wpsf' ); ?></label>
                         <input type="checkbox" id="wpsf_send_to_admin" name="wpsf_send_to_admin" class="wpsf-form-checkbox" value="1" checked title="<?php _e( 'If not checked, field value not send to admin', 'wpsf' ); ?>">
                     </div>
-                    <div class="wpsf-group wpsf-group-inline">
-                        <label for="wpsf_send_to_user"><?php _e( 'Send to user?', 'wpsf' ); ?></label>
-                        <input type="checkbox" id="wpsf_send_to_user" name="wpsf_send_to_user" class="wpsf-form-checkbox" value="1" checked title="<?php _e( 'If not checked, field value not send to user', 'wpsf' ); ?>">
-                    </div>
                     <div class="wpsf-group">
                         <input type="hidden" id="wpsf_form_id" name="wpsf_form_id" value="<?= !empty($this->data['form'])?$this->data['form']['id']:'' ?>">
                         <input type="hidden" name="action" value="wpsf_add_form_field">
@@ -201,10 +183,6 @@
                     <div class="wpsf-group wpsf-group-inline">
                         <label for="wpsf_edit_send_to_admin"><?php _e( 'Send to admin?', 'wpsf' ); ?></label>
                         <input type="checkbox" id="wpsf_edit_send_to_admin" name="wpsf_send_to_admin" class="wpsf-form-checkbox" value="1" checked title="<?php _e( 'If not checked, field value not send to admin', 'wpsf' ); ?>">
-                    </div>
-                    <div class="wpsf-group wpsf-group-inline">
-                        <label for="wpsf_edit_send_to_user"><?php _e( 'Send to user?', 'wpsf' ); ?></label>
-                        <input type="checkbox" id="wpsf_edit_send_to_user" name="wpsf_send_to_user" class="wpsf-form-checkbox" value="1" checked title="<?php _e( 'If not checked, field value not send to user', 'wpsf' ); ?>">
                     </div>
                     <div class="wpsf-group">
                         <input type="hidden" id="wpsf_edit_field_id" name="wpsf_field_id">

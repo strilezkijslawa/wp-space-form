@@ -66,6 +66,19 @@ if ( !class_exists( 'WPSF_Model' ) ) {
         }
 
         /**
+         * Get WPSF settings from db
+         * @return array
+         */
+        public function get_wpsf_settings()
+        {
+            global $wpdb;
+
+            $settings = $wpdb->get_results("SELECT * FROM `" . $this->wpsf_settings_table . "` LIMIT 1", ARRAY_A);
+
+            return $settings[0];
+        }
+
+        /**
          * Select wpsf forms from db
          * @param bool $form_id
          * @return array

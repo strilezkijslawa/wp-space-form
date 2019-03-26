@@ -54,12 +54,8 @@ function closeModal( modal_id ) {
     jQuery(modal_id).removeClass( 'open' );
     jQuery(modal_id).find('.wpsf-form-input').val('');
 }
-function checkEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
 
-jQuery('#wpsfAdminForm').submit(function (e) {
+jQuery('#wpsfAdminForm').on('submit',function (e) {
     e.preventDefault();
 
     let form = jQuery(this);
@@ -76,7 +72,7 @@ jQuery('#wpsfAdminForm').submit(function (e) {
     });
 });
 
-jQuery('#wpsfAddFormForm').submit(function (e) {
+jQuery('#wpsfAddFormForm').on('submit',function (e) {
     e.preventDefault();
 
     let error = false;
@@ -125,7 +121,43 @@ jQuery('#wpsfAddFormForm').submit(function (e) {
     }
 });
 
-jQuery('#wpsfAddFieldForm').submit(function (e) {
+jQuery('#wpsfFormFieldsForm').on('submit',function (e) {
+    e.preventDefault();
+
+    let error = false;
+    let form = jQuery(this);
+
+    form.find('.has-error').removeClass('has-error');
+    form.find('.required').each(function(){
+        let item = jQuery(this);
+        if ( item.val() == '' ) {
+            item.parent().addClass('has-error');
+            error = true;
+        }
+        if ( item.hasClass('email') ) {
+            if(!checkEmail( item.val() )){
+                item.parent().addClass('has-error');
+                error = true;
+            }
+        }
+    });
+
+    if ( !error ) {
+        let data = form.serialize();
+        jQuery.post(ajaxObject.url, data, function (response) {
+            let msg = '';
+            if (response.success) {
+                msg = '<div class="notice notice-success is-dismissible">' + response.data.text + '</div>';
+            } else {
+                msg = '<div class="notice notice-error is-dismissible">' + response.data.text + '</div>';
+            }
+
+            showMessage(msg);
+        });
+    }
+});
+
+jQuery('#wpsfAddFieldForm').on('submit',function (e) {
     e.preventDefault();
 
     let error = false;
@@ -152,10 +184,18 @@ jQuery('#wpsfAddFieldForm').submit(function (e) {
 
             if (typeof response.data.field !== 'undefined') {
                 let field_block = '<div class="wpsf-form-field ui-state-default" data-id="' + response.data.field.id + '" data-sorting="' + response.data.field.sorting + '">' +
+                    '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                     '<div class="wpsf-inline">' +
                     '<div class="wpsf-form-field-sorting">' + response.data.field.sorting + '</div>' +
                     '<div class="wpsf-form-field-label">' + response.data.field.label + '</div>' +
                     '<div class="wpsf-form-field-name">' + response.data.field.name + '</div>' +
+                    '<div class="wpsf-form-field-name">[' + response.data.field.type + ']</div>' +
+                    '<div class="wpsf-form-field-name">Required: ' + response.data.field.required + '</div>' +
+                    '<div class="wpsf-form-field-name">To admin: ' + response.data.field.send_to_admin + '</div>' +
+                    '</div>' +
+                    '<div class="wpsf-form-field-actions wpsf-right">' +
+                    '<a href="#" class="wpsf-btn wpsf-btn-edit-field">Edit</a>' +
+                    '<a href="#" class="wpsf-btn wpsf-btn-delete-field">Delete</a>' +
                     '</div>' +
                     '</div>';
 
@@ -175,13 +215,13 @@ jQuery('#wpsfAddFieldForm').submit(function (e) {
     }
 });
 
-jQuery('.wpsf-btn-add-form').click(function(){
+jQuery(document).on('click','.wpsf-btn-add-form',function(){
     showModal( '#wpsfAddFormModal' );
 
     return false;
 });
 
-jQuery('.wpsf-btn-close').click(function(){
+jQuery(document).on('click','.wpsf-btn-close',function(){
     let modal = jQuery( this ).closest( '.wpsf-modal' );
 
     closeModal( '#' + modal.attr('id') );
@@ -189,7 +229,7 @@ jQuery('.wpsf-btn-close').click(function(){
     return false;
 });
 
-jQuery('.wpsf-table-link-activate').click(function(){
+jQuery(document).on('click','.wpsf-table-link-activate',function(){
     let link = jQuery(this);
     let data = {
         'action': 'wpsf_activate_forms',
@@ -212,7 +252,7 @@ jQuery('.wpsf-table-link-activate').click(function(){
     return false;
 });
 
-jQuery('.wpsf-table-link-deactivate').click(function(){
+jQuery(document).on('click','.wpsf-table-link-deactivate',function(){
     let link = jQuery(this);
     let data = {
         'action': 'wpsf_deactivate_forms',
@@ -235,7 +275,7 @@ jQuery('.wpsf-table-link-deactivate').click(function(){
     return false;
 });
 
-jQuery('.wpsf-table-link-delete').click(function(){
+jQuery(document).on('click','.wpsf-table-link-delete',function(){
     let link = jQuery(this);
     var r = confirm(link.data('delete-msg'));
     if (r === true) {
@@ -262,13 +302,13 @@ jQuery('.wpsf-table-link-delete').click(function(){
     return false;
 });
 
-jQuery('.wpsf-form-add-field').click(function(){
+jQuery(document).on('click','.wpsf-form-add-field',function(){
     showModal( '#wpsfAddFieldModal' );
 
     return false;
 });
 
-jQuery('.wpsf-btn-edit-field').click(function(){
+jQuery(document).on('click','.wpsf-btn-edit-field',function(){
     let data = {
         'action': 'wpsf_get_field_data',
         'wpsf_field_id': jQuery(this).closest('.wpsf-form-field').data('id')
@@ -282,20 +322,15 @@ jQuery('.wpsf-btn-edit-field').click(function(){
             modal.find('#wpsf_edit_label').val( response.data.field.label );
             modal.find('#wpsf_edit_type option[value="' + response.data.field.type + '"]').prop('selected',true);
             modal.find('.wpsf-form-select').selectmenu('refresh');
-            if ( response.data.field.required ) {
+            if ( response.data.field.required == 1 ) {
                 modal.find('#wpsf_edit_required').prop('checked',true);
             } else {
-                modal.find('#wpsf_edit_required').prop('checked',false);
+                modal.find('#wpsf_edit_required').removeAttr('checked');
             }
-            if ( response.data.field.send_to_admin ) {
+            if ( response.data.field.send_to_admin == 1 ) {
                 modal.find('#wpsf_edit_send_to_admin').prop('checked',true);
             } else {
-                modal.find('#wpsf_edit_send_to_admin').prop('checked',false);
-            }
-            if ( response.data.field.send_to_user ) {
-                modal.find('#wpsf_edit_send_to_user').prop('checked',true);
-            } else {
-                modal.find('#wpsf_edit_send_to_user').prop('checked',false);
+                modal.find('#wpsf_edit_send_to_admin').removeAttr('checked');
             }
             modal.find('#wpsf_edit_form_id').val( response.data.field.form_id );
 
@@ -309,7 +344,7 @@ jQuery('.wpsf-btn-edit-field').click(function(){
     return false;
 });
 
-jQuery('#wpsfEditFieldForm').submit(function (e) {
+jQuery('#wpsfEditFieldForm').on('submit',function (e) {
     e.preventDefault();
 
     let error = false;
@@ -336,10 +371,18 @@ jQuery('#wpsfEditFieldForm').submit(function (e) {
 
             if (typeof response.data.field !== 'undefined') {
                 let field_block = '<div class="wpsf-form-field ui-state-default" data-id="' + response.data.field.id + '" data-sorting="' + response.data.field.sorting + '">' +
+                    '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' +
                     '<div class="wpsf-inline">' +
                     '<div class="wpsf-form-field-sorting">' + response.data.field.sorting + '</div>' +
                     '<div class="wpsf-form-field-label">' + response.data.field.label + '</div>' +
                     '<div class="wpsf-form-field-name">' + response.data.field.name + '</div>' +
+                    '<div class="wpsf-form-field-name">[' + response.data.field.type + ']</div>' +
+                    '<div class="wpsf-form-field-name">Required: ' + response.data.field.required + '</div>' +
+                    '<div class="wpsf-form-field-name">To admin: ' + response.data.field.send_to_admin + '</div>' +
+                    '</div>' +
+                    '<div class="wpsf-form-field-actions wpsf-right">' +
+                    '<a href="#" class="wpsf-btn wpsf-btn-edit-field">Edit</a>' +
+                    '<a href="#" class="wpsf-btn wpsf-btn-delete-field">Delete</a>' +
                     '</div>' +
                     '</div>';
 
@@ -356,7 +399,7 @@ jQuery('#wpsfEditFieldForm').submit(function (e) {
     }
 });
 
-jQuery('.wpsf-btn-activate-field').click(function(){
+jQuery(document).on('click','.wpsf-btn-activate-field',function(){
     let link = jQuery(this);
     let data = {
         'action': 'wpsf_activate_fields',
@@ -380,7 +423,7 @@ jQuery('.wpsf-btn-activate-field').click(function(){
     return false;
 });
 
-jQuery('.wpsf-btn-deactivate-field').click(function(){
+jQuery(document).on('click','.wpsf-btn-deactivate-field',function(){
     let link = jQuery(this);
     let data = {
         'action': 'wpsf_deactivate_fields',
@@ -404,7 +447,7 @@ jQuery('.wpsf-btn-deactivate-field').click(function(){
     return false;
 });
 
-jQuery('.wpsf-btn-delete-field').click(function(){
+jQuery(document).on('click','.wpsf-btn-delete-field',function(){
     let link = jQuery(this);
     let data = {
         'action': 'wpsf_delete_fields',
@@ -426,4 +469,75 @@ jQuery('.wpsf-btn-delete-field').click(function(){
     });
 
     return false;
+});
+
+jQuery('#wpsfFormsForm').on('submit',function (e) {
+    e.preventDefault();
+
+    let form = jQuery(this);
+    let data = form.serialize();
+    jQuery.post(ajaxObject.url, data, function (response) {
+        let msg = '';
+        if (response.success) {
+            msg = '<div class="notice notice-success is-dismissible">' + response.data.text + '</div>';
+        } else {
+            msg = '<div class="notice notice-error is-dismissible">' + response.data.text + '</div>';
+        }
+
+        showMessage(msg);
+
+        window.location.reload();
+    });
+});
+
+jQuery(document).on('click','.wpsf-table-link-letter-delete',function(){
+    let link = jQuery(this);
+    var r = confirm(link.data('delete-msg'));
+    if (r === true) {
+        let data = {
+            'action': 'wpsf_delete_letters',
+            'wpsf_letter_id': link.closest('.wpsf-letter-row').data('id')
+        };
+        jQuery.post(ajaxObject.url, data, function (response) {
+            let msg = '';
+            if (response.success) {
+                msg = '<div class="notice notice-success is-dismissible">' + response.data.text + '</div>';
+                if (!link.hasClass('wpsf-single-letter')) {
+                    link.closest('.wpsf-letter-row').fadeOut(400);
+                    setTimeout(function () {
+                        link.closest('.wpsf-letter-row').remove();
+                    }, 1000);
+                }
+            } else {
+                msg = '<div class="notice notice-error is-dismissible">' + response.data.text + '</div>';
+            }
+
+            showMessage(msg);
+
+            if (link.hasClass('wpsf-single-letter')) {
+                window.location.href = '/wp-admin/admin.php?page=wpsf-sent-letters';
+            }
+        });
+    }
+
+    return false;
+});
+
+jQuery('#wpsfLettersForm').on('submit',function (e) {
+    e.preventDefault();
+
+    let form = jQuery(this);
+    let data = form.serialize();
+    jQuery.post(ajaxObject.url, data, function (response) {
+        let msg = '';
+        if (response.success) {
+            msg = '<div class="notice notice-success is-dismissible">' + response.data.text + '</div>';
+        } else {
+            msg = '<div class="notice notice-error is-dismissible">' + response.data.text + '</div>';
+        }
+
+        showMessage(msg);
+
+        window.location.reload();
+    });
 });

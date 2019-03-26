@@ -64,7 +64,7 @@ if ( ! class_exists('WPSF_Controller') ) {
             $WPSF_Shortcode = WPSF_Shortcode::get_instance();
             add_shortcode('wpsf_space_form', array($WPSF_Shortcode, 'wpsf_space_form_shortcode'));
 
-            $this->get_wpsf_settings();
+            $this->settings = $this->WPCF_Model->get_wpsf_settings();
 
             /* Css Asynchronous Loading */
             add_action('wp_head', array($this, 'wpsf_load_css_async'), 7);
@@ -95,7 +95,6 @@ if ( ! class_exists('WPSF_Controller') ) {
                    CREATE TABLE `" . $table . "` (
                         id int(1) NOT NULL AUTO_INCREMENT,
                         send_letters tinyint(1) NOT NULL DEFAULT '1',
-                        send_letters_to_user tinyint(1) NOT NULL DEFAULT '1',
                         from_email varchar(200) NOT NULL DEFAULT 'wpsf@" . str_replace('www.', '', $_SERVER['HTTP_HOST']) . "',
                         message_position enum('" . implode('\',\'', $this->WPCF_Model->wpsf_message_positions ) . "') NOT NULL DEFAULT 'bottom',
                         global_letter_template text NOT NULL DEFAULT '',
@@ -122,7 +121,6 @@ if ( ! class_exists('WPSF_Controller') ) {
                         from_email varchar(255) NOT NULL,
                         to_email varchar(255) NOT NULL,
                         subject varchar(255) NOT NULL,
-                        message_template text NOT NULL DEFAULT '',
                         admin_message_template text NOT NULL DEFAULT '',
                         active tinyint(1) NOT NULL DEFAULT '1',
                         PRIMARY KEY  (`id`)
@@ -145,7 +143,6 @@ if ( ! class_exists('WPSF_Controller') ) {
                         type varchar(50) NOT NULL DEFAULT 'text',
                         required tinyint(1) NOT NULL DEFAULT '0',
                         send_to_admin tinyint(1) NOT NULL DEFAULT '1',
-                        send_to_user tinyint(1) NOT NULL DEFAULT '1',
                         sorting int(11) NOT NULL DEFAULT '99',
                         active tinyint(1) NOT NULL DEFAULT '1',
                         PRIMARY KEY  (`id`)
@@ -166,7 +163,6 @@ if ( ! class_exists('WPSF_Controller') ) {
                         to_email varchar(255) NOT NULL,
                         subject varchar(255) NOT NULL,
                         message_template text NULL,
-                        admin_message_template text NULL,
                         sended tinyint(1) NOT NULL DEFAULT '1',
                         PRIMARY KEY  (`id`)
                         ) $charset_collate ;";
@@ -204,8 +200,13 @@ if ( ! class_exists('WPSF_Controller') ) {
         public function wpsf_sent_letters_page()
         {
             $this->WPCF_View->setSettings( $this->settings );
-            $letters = $this->WPCF_Model->get_wpsf_sent_letters();
-            $this->WPCF_View->setLetters( $letters );
+            if ( isset($_GET['letter_id']) ) {
+                $letter = $this->WPCF_Model->get_wpsf_sent_letters( $_GET['letter_id'] );
+                $this->WPCF_View->setLetter($letter);
+            } else {
+                $letters = $this->WPCF_Model->get_wpsf_sent_letters();
+                $this->WPCF_View->setLetters($letters);
+            }
             $this->WPCF_View->wpsf_show_sent_letters_page();
         }
 
@@ -297,23 +298,13 @@ if ( ! class_exists('WPSF_Controller') ) {
         public function wpsf_load_css_async()
         {
             $scripts = "";
-            $scripts .= "\n<style>\n{$this->settings['styles']}\n</style>\n";
+            $scripts .= "\n<style>";
+            $scripts .= "\n.wpsf-notices .notice-success{\n\tcolor: #{$this->settings['success_message_color']};\n\tborder-color: #{$this->settings['success_message_color']};\n}";
+            $scripts .= "\n.wpsf-notices .notice-error{\n\tcolor: #{$this->settings['error_message_color']};\n\tborder-color: #{$this->settings['error_message_color']};\n}";
+            $scripts .= "\n{$this->settings['styles']}";
+            $scripts .= "\n</style>\n";
 
             echo $scripts;
-        }
-
-        /**
-         * Get WPSF settings from db
-         * @return array
-         */
-        public function get_wpsf_settings()
-        {
-            global $wpdb;
-
-            $settings = $wpdb->get_results("SELECT * FROM `" . $this->WPCF_Model->wpsf_settings_table . "` LIMIT 1", ARRAY_A);
-            $this->settings = $settings[0];
-
-            return $this->settings;
         }
     }
 

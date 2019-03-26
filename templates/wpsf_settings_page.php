@@ -17,10 +17,6 @@
                         <input type="checkbox" id="wpsf_send_letters" name="wpsf_send_letters" class="wpsf-form-check" value="1" <?php if ( $this->data['settings']['send_letters'] ) { echo 'checked'; } ?>>
                     </div>
                     <div class="wpsf-group">
-                        <label for="wpsf_send_letters_to_user"><?php _e( 'Send letter to user?', 'wpsf' ); ?></label>
-                        <input type="checkbox" id="wpsf_send_letters_to_user" name="wpsf_send_letters_to_user" class="wpsf-form-check" value="1" <?php if ( $this->data['settings']['send_letters_to_user'] ) { echo 'checked'; } ?>>
-                    </div>
-                    <div class="wpsf-group">
                         <label for="wpsf_from_email"><?php _e( 'From email', 'wpsf' ); ?></label>
                         <input type="email" id="wpsf_from_email" name="wpsf_from_email" class="wpsf-form-input" value="<?=$this->data['settings']['from_email']?>">
                     </div>

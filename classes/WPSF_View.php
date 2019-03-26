@@ -38,6 +38,11 @@ if ( !class_exists( 'WPSF_View' ) ) {
             $this->data['letters'] = $letters;
         }
 
+        public function setLetter( $letter = [] )
+        {
+            $this->data['letter'] = $letter;
+        }
+
         /**
          * The unique instance of the plugin.
          *
@@ -81,7 +86,16 @@ if ( !class_exists( 'WPSF_View' ) ) {
 
         public function wpsf_show_sent_letters_page()
         {
-            require_once WPSF_TEMPLATES_DIR . 'wpsf_sent_letters_page.php';
+            if ( isset($_GET['letter_id']) ) {
+                require_once WPSF_TEMPLATES_DIR . 'wpsf_single_sent_letter_page.php';
+            } else {
+                require_once WPSF_TEMPLATES_DIR . 'wpsf_sent_letters_page.php';
+            }
+        }
+
+        public function wpsf_show_single_form()
+        {
+            require_once WPSF_TEMPLATES_DIR . 'front/wpsf_single_form.php';
         }
     }
 }

@@ -24,6 +24,8 @@ add_action( 'wp_ajax_wpsf_deactivate_fields', 'wpsf_deactivate_fields' );
 add_action( 'wp_ajax_wpsf_delete_fields', 'wpsf_delete_fields' );
 add_action( 'wp_ajax_wpsf_get_field_data', 'wpsf_get_field_data' );
 
+add_action( 'wp_ajax_wpsf_delete_letters', 'wpsf_delete_letters' );
+
 /**
  * Function to accept ajax call for updating settings
  *
@@ -35,7 +37,6 @@ if ( ! function_exists( 'wpsf_update_settings' ) ) {
 
         $inputData = array(
             'send_letters' => (bool)$_POST['wpsf_send_letters'],
-            'send_letters_to_user' => (bool)$_POST['wpsf_send_letters_to_user'],
             'from_email' => trim($_POST['wpsf_from_email']),
             'global_letter_template' => stripslashes( trim( $_POST['wpsf_global_letter_template'] ) ),
             'message_position' => $_POST['wpsf_message_position'],
@@ -166,7 +167,6 @@ if ( !function_exists( 'wpsf_add_single_form' ) ) {
             'from_email' => sanitize_text_field( $_POST['wpsf_from_email'] ),
             'to_email' => sanitize_text_field( $_POST['wpsf_to_email'] ),
             'subject' => sanitize_text_field( $_POST['wpsf_subject'] ),
-            'message_template' => stripslashes( trim( $_POST['wpsf_message_template'] ) ),
             'admin_message_template' => stripslashes( trim( $_POST['wpsf_admin_message_template'] ) )
         );
 
@@ -200,7 +200,6 @@ if ( !function_exists( 'wpsf_update_single_form' ) ) {
                 'from_email' => sanitize_text_field( $_POST['wpsf_from_email'] ),
                 'to_email' => sanitize_text_field( $_POST['wpsf_to_email'] ),
                 'subject' => sanitize_text_field( $_POST['wpsf_subject'] ),
-                'message_template' => stripslashes( trim( $_POST['wpsf_message_template'] ) ),
                 'admin_message_template' => stripslashes( trim( $_POST['wpsf_admin_message_template'] ) )
             );
             $updated = $wpdb->update( $WPSF_Model->wpsf_forms_table, $inputData, array( 'id' => (int) $_POST['wpsf_id'] ) );
@@ -234,7 +233,6 @@ if ( !function_exists( 'wpsf_add_form_field' ) ) {
                 'type' => $_POST['wpsf_type'],
                 'required' => (bool) $_POST['wpsf_required'],
                 'send_to_admin' => (bool) $_POST['wpsf_send_to_admin'],
-                'send_to_user' => (bool) $_POST['wpsf_send_to_user'],
                 'form_id' => (int) $_POST['wpsf_form_id']
             );
             $inserted = $wpdb->insert( $WPSF_Model->wpsf_form_fields_table, $inputData );
@@ -268,7 +266,6 @@ if ( !function_exists( 'wpsf_update_form_field' ) ) {
                 'type' => $_POST['wpsf_type'],
                 'required' => (bool) $_POST['wpsf_required'],
                 'send_to_admin' => (bool) $_POST['wpsf_send_to_admin'],
-                'send_to_user' => (bool) $_POST['wpsf_send_to_user'],
                 'form_id' => (int) $_POST['wpsf_form_id']
             );
 
@@ -403,6 +400,29 @@ if ( !function_exists( 'wpsf_delete_fields' ) ) {
             $wpdb->query( $wpdb->prepare( "DELETE FROM $WPSF_Model->wpsf_form_fields_table WHERE id IN($wpsf_field_id)" ) );
 
             wp_send_json_success( array( 'text' => __( 'Success deleted fields', 'wpsf' ) ) );
+        }
+        else {
+            wp_send_json_error( array( 'text' => __( 'Delete is failed. Class WPSF_Model not exist', 'wpsf' ) ) );
+        }
+
+        wp_die();
+    }
+}
+
+if ( !function_exists( 'wpsf_delete_letters' ) ) {
+    function wpsf_delete_letters()
+    {
+        global $wpdb;
+
+        $wpsf_letter_id = $_POST['wpsf_letter_id'];
+        !is_array($wpsf_letter_id) && $wpsf_letter_id = [ $wpsf_letter_id ];
+
+        if ( class_exists('WPSF_Model') ) {
+            $WPSF_Model = WPSF_Model::get_instance();
+            $wpsf_letter_id = implode( ',', array_map( 'absint', $wpsf_letter_id ) );
+            $wpdb->query( $wpdb->prepare( "DELETE FROM $WPSF_Model->wpsf_letters_table WHERE id IN($wpsf_letter_id)" ) );
+
+            wp_send_json_success( array( 'text' => __( 'Success deleted', 'wpsf' ) ) );
         }
         else {
             wp_send_json_error( array( 'text' => __( 'Delete is failed. Class WPSF_Model not exist', 'wpsf' ) ) );
