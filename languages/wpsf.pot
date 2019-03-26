@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Convert Pro 1.1.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertpro\n"
-"POT-Creation-Date: 2018-08-25 19:54+0300\n"
+"POT-Creation-Date: 2019-03-26 17:29+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,72 +23,426 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: classes/WPSR_Loader.php:64
+#: classes/WPSF_Controller.php:183 templates/wpsf_sent_letters_page.php:8
+msgid "Sent letters"
+msgstr ""
+
+#: classes/WPSF_Controller.php:184
+msgid "Settings"
+msgstr ""
+
+#: classes/WPSF_Loader.php:59
 msgid ""
 "Your server seems to be running outdated, unsupported and vulnerable version of "
 "PHP. You are advised to contact your host provider and upgrade to PHP version "
 "5.3 or greater."
 msgstr ""
 
-#: classes/WPSR_Loader.php:215
+#: classes/WPSF_Loader.php:219
 #, php-format
 msgid ""
-"You currently have two versions of <strong>WP Space Rate</strong> active on this "
+"You currently have two versions of <strong>WP Space Form</strong> active on this "
 "site. Please <a href='%s'>deactivate one</a> before continuing."
 msgstr ""
 
-#: includes/ajax-actions.php:50
+#: classes/WPSF_Routes.php:61
+msgid "Form is undefined. Please reload page, and try again"
+msgstr ""
+
+#: classes/WPSF_Routes.php:67
+msgid "Form is deactivated or deleted. Please reload page"
+msgstr ""
+
+#: classes/WPSF_Routes.php:72
+msgid "Form fields is deactivated or deleted. Please reload page"
+msgstr ""
+
+#: classes/WPSF_Routes.php:100
+msgid "New form data filled on site "
+msgstr ""
+
+#: classes/WPSF_Routes.php:123
+msgid "Form success sent"
+msgstr ""
+
+#: includes/ajax-actions.php:52
+msgid "Success settings updated"
+msgstr ""
+
+#: includes/ajax-actions.php:55
+msgid "Update settings is failed"
+msgstr ""
+
+#: includes/ajax-actions.php:77
+msgid "Success deleted form"
+msgstr ""
+
+#: includes/ajax-actions.php:79
+msgid "Delete form is failed"
+msgstr ""
+
+#: includes/ajax-actions.php:83 includes/ajax-actions.php:107
+msgid "Delete is failed. Class WPSF_Controller not exist"
+msgstr ""
+
+#: includes/ajax-actions.php:104
+msgid "Success deleted forms"
+msgstr ""
+
+#: includes/ajax-actions.php:127
+msgid "Success activate forms"
+msgstr ""
+
+#: includes/ajax-actions.php:130
+msgid "Activate is failed. Class WPSF_Controller not exist"
+msgstr ""
+
+#: includes/ajax-actions.php:150
+msgid "Success deactivate forms"
+msgstr ""
+
+#: includes/ajax-actions.php:153
+msgid "Deactivate is failed. Class WPSF_Controller not exist"
+msgstr ""
+
+#: includes/ajax-actions.php:178 includes/ajax-actions.php:241
+msgid "Success create form"
+msgstr ""
+
+#: includes/ajax-actions.php:180 includes/ajax-actions.php:243
+msgid "Create form is failed"
+msgstr ""
+
+#: includes/ajax-actions.php:184 includes/ajax-actions.php:247
+msgid "Create form is failed. WPSF_Model not exist"
+msgstr ""
+
+#: includes/ajax-actions.php:208 includes/ajax-actions.php:278
 msgid "Success updated"
 msgstr ""
 
-#: includes/ajax-actions.php:53
+#: includes/ajax-actions.php:210 includes/ajax-actions.php:273
+#: includes/ajax-actions.php:280
 msgid "Updated is failed"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:16
-msgid "Settings"
+#: includes/ajax-actions.php:214 includes/ajax-actions.php:285
+msgid "Update is failed. WPSF_Model not exist"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:27
-msgid "Show rate?"
+#: includes/ajax-actions.php:301
+msgid "Success select"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:31
-msgid "Star font size"
+#: includes/ajax-actions.php:303
+msgid "Select is failed"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:36
-msgid "Empty star color"
+#: includes/ajax-actions.php:307
+msgid "Select is failed. WPSF_Model not exist"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:40
-msgid "Filled star color"
+#: includes/ajax-actions.php:333
+msgid "Sorting updated"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:44
-msgid "Title size"
+#: includes/ajax-actions.php:336
+msgid "Update is failed. Class WPSF_Model not exist"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:49
-msgid "Title empty text"
+#: includes/ajax-actions.php:356
+msgid "Success activate fields"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:53
-msgid "Title filled text"
+#: includes/ajax-actions.php:359
+msgid "Activate is failed. Class WPSF_Model not exist"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:57
-msgid "Title color"
+#: includes/ajax-actions.php:379
+msgid "Success deactivate fields"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:65
-msgid "Set rate position"
+#: includes/ajax-actions.php:382
+msgid "Deactivate is failed. Class WPSF_Model not exist"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:82
+#: includes/ajax-actions.php:402
+msgid "Success deleted fields"
+msgstr ""
+
+#: includes/ajax-actions.php:405 includes/ajax-actions.php:428
+msgid "Delete is failed. Class WPSF_Model not exist"
+msgstr ""
+
+#: includes/ajax-actions.php:425
+msgid "Success deleted"
+msgstr ""
+
+#: templates/front/wpsf_single_form.php:47
+msgid "Email is empty or not valid!"
+msgstr ""
+
+#: templates/front/wpsf_single_form.php:49
+msgid "Field is mandatory!"
+msgstr ""
+
+#: templates/front/wpsf_single_form.php:56
+msgid "Send"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:8
+msgid "Forms"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:8 templates/wpsf_forms_page.php:119
+msgid "Add form"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:18
+msgid "Form name"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:19
+msgid "Shortcode"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:20 templates/wpsf_sent_letters_page.php:23
+msgid "Actions"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:38
+msgid "Deactivate this form"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:40
+msgid "Activate this form"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:42
+msgid "Delete this form"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:42
+msgid "You want to delete this form?"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:49
+msgid "Forms not found"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:55 templates/wpsf_sent_letters_page.php:43
+msgid "Action"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:58 templates/wpsf_sent_letters_page.php:46
+#: templates/wpsf_single_form_page.php:80
+msgid "Delete"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:59 templates/wpsf_single_form_page.php:76
+#: templates/wpsf_single_form_page.php:78
+msgid "Activate"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:60 templates/wpsf_single_form_page.php:76
+#: templates/wpsf_single_form_page.php:78
+msgid "Deactivate"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:64 templates/wpsf_sent_letters_page.php:50
+#: templates/wpsf_single_form_page.php:97
 msgid "Save"
 msgstr ""
 
-#: templates/wpsr_admin_page.php:87
-msgid "Stars preview:"
+#: templates/wpsf_forms_page.php:77
+msgid "Add new form"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:80 templates/wpsf_single_form_page.php:21
+msgid "Name"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:82 templates/wpsf_forms_page.php:96
+#: templates/wpsf_single_form_page.php:118 templates/wpsf_single_form_page.php:162
+msgid "Error! Field can not be empty!"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:85 templates/wpsf_settings_page.php:20
+#: templates/wpsf_single_form_page.php:25
+#: templates/wpsf_single_sent_letter_page.php:24
+msgid "From email"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:87
+msgid "Error! Email can not be empty and must be valid!"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:90 templates/wpsf_single_form_page.php:29
+#: templates/wpsf_single_sent_letter_page.php:28
+msgid "To email"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:94 templates/wpsf_sent_letters_page.php:21
+#: templates/wpsf_single_form_page.php:33
+#: templates/wpsf_single_sent_letter_page.php:20
+msgid "Subject"
+msgstr ""
+
+#: templates/wpsf_forms_page.php:99 templates/wpsf_single_form_page.php:37
+msgid "Admin message template"
+msgstr ""
+
+#: templates/wpsf_sent_letters_page.php:22
+msgid "Send to"
+msgstr ""
+
+#: templates/wpsf_sent_letters_page.php:37
+#: templates/wpsf_single_sent_letter_page.php:42
+msgid "Delete this letter"
+msgstr ""
+
+#: templates/wpsf_sent_letters_page.php:37
+#: templates/wpsf_single_sent_letter_page.php:42
+msgid "You want to delete this letter?"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:8
+msgid "Settings for"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:16
+msgid "Send letter to admin?"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:24
+msgid "Success/error message position"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:36
+msgid "Success color"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:40
+msgid "Error color"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:44
+msgid "Admin letter template"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:63
+msgid "Custom styles"
+msgstr ""
+
+#: templates/wpsf_settings_page.php:83
+msgid "Save settings"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:8
+#: templates/wpsf_single_sent_letter_page.php:8
+msgid "Back to list"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:10 templates/wpsf_single_form_page.php:56
+msgid "Form fields"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:69
+msgid "Required"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:71
+msgid "To admin:"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:74 templates/wpsf_single_form_page.php:157
+msgid "Edit field"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:85
+msgid "You need to add any fields to the form"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:91 templates/wpsf_single_form_page.php:146
+msgid "Add field"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:113
+msgid "Add field to this form"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:116 templates/wpsf_single_form_page.php:160
+msgid "Field name"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:117 templates/wpsf_single_form_page.php:161
+msgid "Only latin, without spaces, for multiple use []"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:121 templates/wpsf_single_form_page.php:165
+msgid "Field label"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:125 templates/wpsf_single_form_page.php:169
+msgid "Field type"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:127 templates/wpsf_single_form_page.php:171
+msgid "Text one string"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:128 templates/wpsf_single_form_page.php:172
+msgid "Email"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:129 templates/wpsf_single_form_page.php:173
+msgid "Checkbox"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:130 templates/wpsf_single_form_page.php:174
+msgid "Radio"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:131 templates/wpsf_single_form_page.php:175
+msgid "Text area"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:133 templates/wpsf_single_form_page.php:177
+msgid "Error! You need select field type!"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:136 templates/wpsf_single_form_page.php:180
+msgid "Field is mandatory?"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:140 templates/wpsf_single_form_page.php:184
+msgid "Send to admin?"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:141 templates/wpsf_single_form_page.php:185
+msgid "If not checked, field value not send to admin"
+msgstr ""
+
+#: templates/wpsf_single_form_page.php:191
+msgid "Update field"
+msgstr ""
+
+#: templates/wpsf_single_sent_letter_page.php:10
+msgid "Letter"
+msgstr ""
+
+#: templates/wpsf_single_sent_letter_page.php:32
+msgid "Message"
+msgstr ""
+
+#: templates/wpsf_single_sent_letter_page.php:38
+msgid "Is sent?"
+msgstr ""
+
+#: templates/wpsf_single_sent_letter_page.php:39
+msgid "Yes"
+msgstr ""
+
+#: templates/wpsf_single_sent_letter_page.php:39
+msgid "No"
 msgstr ""
